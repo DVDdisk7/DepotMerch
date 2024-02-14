@@ -2,7 +2,7 @@
 
 namespace DepotMerch.Interfaces
 {
-    public interface InterfaceProduct
+    public interface IProduct
     {
         public List<Product> GetAllProducts();
         public void AddProduct(Product product);

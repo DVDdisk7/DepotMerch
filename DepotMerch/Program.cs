@@ -1,5 +1,6 @@
 using DepotMerch.Areas.Identity;
 using DepotMerch.Data;
+using DepotMerch.Data.Products;
 using DepotMerch.Interfaces;
 using DepotMerch.Services;
 using Microsoft.AspNetCore.Components;
@@ -15,7 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
-builder.Services.AddTransient<InterfaceProduct, ProductManager>();
+builder.Services.AddDbContext<DepotMerchProductsContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IProduct, ProductManager>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -29,6 +38,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {

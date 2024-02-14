@@ -1,15 +1,25 @@
 ﻿@page "/"
-@using DepotMerch.Models
+@using DepotMerch.Data.Products
 @using DepotMerch.Shared
 @using DepotMerch.Services
+@using DepotMerch.Interfaces
+@inject HttpClient Http
 
 <PageTitle>Productoverzicht</PageTitle>
 
 <h1>Productoverzicht</h1>
 
-<ProductList Products="Products" DisplayBuyButton="true"></ProductList>
+<ProductList Products="productsList" DisplayBuyButton="true"></ProductList>
 
 
 @code {
-    public List<Product> Products { get; set; } = ProductProviderService.Products.ToList();
+    protected List<Product> productsList = new();
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllProducts();
+    }
+    protected async Task GetAllProducts()
+    {
+        productsList = await Http.GetFromJsonAsync<List<Product>>("api/products");
+    }
 }

@@ -1,0 +1,102 @@
+﻿@page "/admin/products"
+@inject HttpClient Http
+@using DepotMerch.Data.Products
+@using DepotMerch.Services
+@using DepotMerch.Interfaces
+
+<h1>Productoverzicht</h1>
+<div class="row">
+    <div class="col-md-6">
+        <a href="/admin/products/add" class="btn btn-primary" role="button"><i class="fas fa-user-plus"></i>Voeg product toe</a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Zoek producten" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterProducts" />
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch"><i class="fas fa-times"></i></button>
+            </div>
+        }
+    </div>
+</div>
+<br />
+
+@if (productsList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Naam</th>
+                <th>Omschrijving</th>
+                <th>Prijs</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in productsList)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>
+                        <a href='/user/edit/@product.Id' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+                        <a href='/user/delete/@product.Id' class="btn btn-outline-danger" role="button">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+
+@code {
+    protected List<Product> productsList = new();
+    protected List<Product> searchProductData = new();
+    protected Product product = new();
+    protected string SearchString { get; set; } = "";
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllProducts();
+    }
+    protected async Task GetAllProducts()
+    {
+        productsList = await Http.GetFromJsonAsync<List<Product>>("api/products");
+        searchProductData = productsList;
+    }
+
+    protected void FilterProducts()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            productsList = searchProductData
+                .Where(x => x.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                .ToList();
+        }
+        else
+        {
+            productsList = searchProductData;
+        }
+    }
+
+    protected void DeleteConfirmation(int id)
+    {
+        product = productsList.FirstOrDefault(x => x.Id == id);
+    }
+
+    public void ResetSearch()
+    {
+        SearchString = "";
+        productsList = searchProductData;
+    }
+}

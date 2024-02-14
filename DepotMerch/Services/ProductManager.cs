@@ -3,7 +3,7 @@ using DepotMerch.Data.Products;
 
 namespace DepotMerch.Services
 {
-    public class ProductManager : InterfaceProduct
+    public class ProductManager : IProduct
     {
         readonly DepotMerchProductsContext _dbContext = new();
 

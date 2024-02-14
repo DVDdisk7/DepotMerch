@@ -54,7 +54,7 @@ namespace DepotMerch.Services
         }
 
         // Delete product
-        public void DeleteProduct(int id)
+        public void DeleteProduct(string id)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace DepotMerch.Services
         }
 
         // Get product by id
-        public Product GetProduct(int id)
+        public Product GetProduct(string id)
         {
             try
             {

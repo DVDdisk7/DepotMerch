@@ -22,7 +22,7 @@ namespace DepotMerch.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             var product = _Product.GetProduct(id);
             if (product != null)
@@ -47,7 +47,7 @@ namespace DepotMerch.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             _Product.DeleteProduct(id);
             return Ok("Product deleted");

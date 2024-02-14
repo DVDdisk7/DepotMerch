@@ -1,0 +1,75 @@
+﻿@page "/admin/products/add"
+@page "/admin/products/edit/{Id}"
+@using DepotMerch.Data.Products
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>@Title</h1>
+<hr />
+
+<EditForm Model="@product" OnValidSubmit="SaveProduct">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name" class="form-label">Naam</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="product.Name" />
+        </div>
+        <ValidationMessage For="@(() => product.Name)" />
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Omschrijving</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="product.Description" />
+        </div>
+        <ValidationMessage For="@(() => product.Description)" />
+    </div>
+    <div class="mb-3">
+            <label for="Price" class="form-label">Prijs</label>
+            <div class="col-md-4">
+                <InputNumber class="form-control" @bind-Value="product.Price" />
+            </div>
+            <ValidationMessage For="@(() => product.Price)" />
+    </div>
+    <div class="mb-3">
+            <label for="ImageUrl" class="form-label">Afbeelding</label>
+            <div class="col-md-4">
+                <InputText class="form-control" @bind-Value="product.ImageUrl" />
+            </div>
+            <ValidationMessage For="@(() => product.ImageUrl)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    protected string Title = "Voeg product toe";
+    protected Product product = new();
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            Title = "Bewerk product";
+            product = await Http.GetFromJsonAsync<Product>($"api/Product/{Id}");
+        }
+    }
+    protected async Task SaveProduct()
+    {
+        if (product.Id == null)
+        {
+            await Http.PostAsJsonAsync("api/Product", product);
+        }
+        else
+        {
+            await Http.PutAsJsonAsync($"api/Product/{product.Id}", product);
+        }
+        NavigationManager.NavigateTo("/admin/products");
+    }
+    public void Cancel()
+    {
+        NavigationManager.NavigateTo("/admin/products");
+    }
+}

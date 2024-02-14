@@ -35,6 +35,8 @@ namespace DepotMerch.Controllers
         [HttpPost]
         public void Post(Product product)
         {
+            // dont ask for id and generate random guid
+            product.Id = Guid.NewGuid().ToString();
             _Product.AddProduct(product);
         }
 

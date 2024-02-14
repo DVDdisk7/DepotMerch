@@ -3,6 +3,7 @@
 @using DepotMerch.Data.Products
 @using DepotMerch.Services
 @using DepotMerch.Interfaces
+@using System.Text.Json
 
 <h1>Productoverzicht</h1>
 <div class="row">
@@ -14,7 +15,7 @@
         @if (SearchString.Length > 0)
         {
             <div class="input-group-append">
-                <button class="btn btn-danger" @onclick="ResetSearch"><i class="fas fa-times"></i></button>
+                <button class="btn btn-danger" @onclick="ResetSearch"><i class="fas fa-times"></i> Reset</button>
             </div>
         }
     </div>
@@ -27,6 +28,7 @@
 }
 else
 {
+    <p>@debug</p>
     <table class="table table-striped align-middle table-bordered">
         <thead class="table-success">
             <tr>
@@ -34,6 +36,7 @@ else
                 <th>Naam</th>
                 <th>Omschrijving</th>
                 <th>Prijs</th>
+                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +67,7 @@ else
     protected List<Product> productsList = new();
     protected List<Product> searchProductData = new();
     protected Product product = new();
+    protected string debug = "";
     protected string SearchString { get; set; } = "";
     protected override async Task OnInitializedAsync()
     {
@@ -71,8 +75,11 @@ else
     }
     protected async Task GetAllProducts()
     {
-        productsList = await Http.GetFromJsonAsync<List<Product>>("api/products");
+
+        //Make a call to the API to get all products
+        productsList = await Http.GetFromJsonAsync<List<Product>>("api/Product");
         searchProductData = productsList;
+
     }
 
     protected void FilterProducts()
@@ -91,7 +98,8 @@ else
 
     protected void DeleteConfirmation(int id)
     {
-        product = productsList.FirstOrDefault(x => x.Id == id);
+        //product = productsList.FirstOrDefault(x => x.Id == id);
+
     }
 
     public void ResetSearch()

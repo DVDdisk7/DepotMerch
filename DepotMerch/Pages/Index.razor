@@ -20,6 +20,6 @@
     }
     protected async Task GetAllProducts()
     {
-        productsList = await Http.GetFromJsonAsync<List<Product>>("api/products");
+        productsList = await Http.GetFromJsonAsync<List<Product>>("api/Product");
     }
 }

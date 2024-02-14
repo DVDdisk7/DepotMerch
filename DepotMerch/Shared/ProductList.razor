@@ -1,0 +1,33 @@
+﻿@using DepotMerch.Models
+@using DepotMerch.Services
+
+<div class="row">
+    @foreach (var product in Products)
+    {
+        <div class="col-sm-6 w-25">
+            <div class="card m-2">
+                @if (product.Image != null)
+                {
+                    <img class="card-img-top" style="width: 100%; height: 400px;" src="@product.Image" alt="Card image cap">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <blockquote class="card-text">$@product.Price</blockquote>
+                    @if (DisplayBuyButton)
+                    {
+                        <button class="btn btn-primary" type="button">Buy</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public List<Product> Products { get; set; } = new();
+    [Parameter]
+    public bool DisplayBuyButton { get; set; }
+}

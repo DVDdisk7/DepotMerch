@@ -1,0 +1,15 @@
+﻿@page "/"
+@using DepotMerch.Models
+@using DepotMerch.Shared
+@using DepotMerch.Services
+
+<PageTitle>Productoverzicht</PageTitle>
+
+<h1>Productoverzicht</h1>
+
+<ProductList Products="Products" DisplayBuyButton="true"></ProductList>
+
+
+@code {
+    public List<Product> Products { get; set; } = ProductProviderService.Products.ToList();
+}

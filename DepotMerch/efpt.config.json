@@ -1,13 +1,13 @@
 ﻿{
    "CodeGenerationMode": 2,
-   "ContextClassName": "DepotMerchProductsContext",
+   "ContextClassName": "DepotMerchOrdersContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Data\\Products",
+   "OutputPath": "Data\\Orders",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "DepotMerch",
    "Schemas": null,
@@ -16,7 +16,15 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[Orders]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Products]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductsByOrder]",
          "ObjectType": 0
       }
    ],
@@ -30,7 +38,7 @@
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
-   "UseInflector": true,
+   "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,

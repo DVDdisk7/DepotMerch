@@ -1,0 +1,41 @@
+﻿@page "/product/{Id}"
+@using DepotMerch.Data.Products
+@using DepotMerch.Services
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>@product.Name</h1>
+<br />
+<div>
+    <a href="/" class="btn btn-primary" role="button">Terug naar productoverzicht</a
+</div>
+<div class="row">
+    @if (product.ImageUrl != null && product.ImageUrl != "")
+    {
+        <div class="col-md-6">
+            <img src="@product.ImageUrl" class="img-fluid" alt="@product.Name" />
+        </div>
+    }
+    <div class="col-md-6">
+        <p>@product.Description</p>
+        <p>Prijs: @product.Price.ToString("C")</p>
+        <div>
+            <label for="quantity">Aantal:</label>
+            <input type="number" id="quantity" name="quantity" min="1" max="100"
+            <button class="btn btn-primary">Voeg toe aan winkelwagen</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    Product product = new Product();
+    protected override async Task OnInitializedAsync()
+    {
+        product = await Http.GetFromJsonAsync<Product>("/api/Product/" + Id);
+    }
+}
+
+
+

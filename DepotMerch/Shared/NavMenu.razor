@@ -13,9 +13,13 @@
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-box" aria-hidden="true"></span> Productoverzicht
             </NavLink>
-            <NavLink class="nav-link" href="/admin/products" Match="NavLinkMatch.All">
-                <span class="oi oi-pencil" aria-hidden="true"></span> Admin
-            </NavLink>
+            <AuthorizeView>
+                <Authorized>
+                    <NavLink class="nav-link" href="/admin/products" Match="NavLinkMatch.All">
+                        <span class="oi oi-pencil" aria-hidden="true"></span> Admin
+                    </NavLink>
+                </Authorized>
+            </AuthorizeView>
         </div>
     </nav>
 </div>

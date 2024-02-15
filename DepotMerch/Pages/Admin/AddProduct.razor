@@ -1,6 +1,7 @@
 ﻿@page "/admin/products/add"
 @page "/admin/products/edit/{Id}"
 @using DepotMerch.Data.Products
+@attribute [Authorize]
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 

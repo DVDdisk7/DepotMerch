@@ -1,18 +1,11 @@
 ﻿@page "/admin/products"
 @inject HttpClient Http
+@attribute [Authorize]
 @using DepotMerch.Data.Products
 @using DepotMerch.Services
 @using DepotMerch.Interfaces
 @using System.Text.Json
 
-<AuthorizeView Roles="Administrator">
-    <Authorized>
-        <p>test</p>
-    </Authorized>
-    <NotAuthorized>
-        <p>You are not authorized to view this page.</p>
-    </NotAuthorized>
-</AuthorizeView>
 
             <h1>Productoverzicht</h1>
             <div class="row">

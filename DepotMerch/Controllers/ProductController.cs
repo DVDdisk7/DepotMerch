@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DepotMerch.Interfaces;
 using DepotMerch.Data.Products;
+using DepotMerch.Services;
 
 namespace DepotMerch.Controllers
 {
@@ -33,24 +34,52 @@ namespace DepotMerch.Controllers
         }
 
         [HttpPost]
-        public void Post(Product product)
+        public IActionResult Post(Product product)
         {
             // dont ask for id and generate random guid
             product.Id = Guid.NewGuid().ToString();
-            _Product.AddProduct(product);
+            // Check if all needed fields are filled
+            if (product.Name == null || product.Description == null || product.Price < 0 )
+            {
+                return BadRequest("Please fill in all fields");
+            }
+            else if (product.ImageUrl != null && Image.CheckImage(product.ImageUrl))
+            {
+                return BadRequest("Image not supported");
+            }
+            else
+            {
+                _Product.AddProduct(product);
+                return Ok("Product added");
+            }
         }
 
         [HttpPut]
-        public void Put(Product product)
+        public IActionResult Put(Product product)
         {
-            _Product.UpdateProduct(product);
+            // Check if all needed fields are filled
+            if (product.Name == null || product.Description == null || product.Price < 0)
+            {
+                return BadRequest("Please fill in all fields");
+            }
+            else
+            {
+                _Product.UpdateProduct(product);
+                return Ok("Product updated");
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            _Product.DeleteProduct(id);
-            return Ok("Product deleted");
+            var product = _Product.GetProduct(id);
+            if (product != null)
+            {
+                _Product.DeleteProduct(id);
+                return Ok("Product deleted");
+            }
+            return NotFound("The Product record couldn't be found.");
+
         }
     }
 }

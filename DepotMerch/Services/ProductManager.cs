@@ -56,39 +56,29 @@ namespace DepotMerch.Services
         // Delete product
         public void DeleteProduct(string id)
         {
-            try
-            {
                 Product? product = _dbContext.Products.Find(id);
                 if (product != null)
                 {
                     _dbContext.Products.Remove(product);
                     _dbContext.SaveChanges();
+                } else
+                {
+                    throw new Exception("Product not found");
                 }
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         // Get product by id
         public Product GetProduct(string id)
         {
-            try
-            {
                 Product? product = _dbContext.Products.Find(id);
                 if (product != null)
                 {
                     return product;
-                } else
-                {
-                    throw new Exception("Product not found");
                 }
-            }
-            catch
-            {
-                throw;
-            }
+                else
+                {
+                    return null;
+                }
         }
     }
 }

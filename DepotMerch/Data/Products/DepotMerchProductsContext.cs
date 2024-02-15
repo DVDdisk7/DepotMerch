@@ -24,14 +24,14 @@ namespace DepotMerch.Data.Products
         {
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                //generate a new GUID for each product
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(500);
 
                 entity.Property(e => e.ImageUrl)
-                    .IsRequired()
                     .HasMaxLength(500)
                     .HasColumnName("Image-URL");
 

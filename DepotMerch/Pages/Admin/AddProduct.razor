@@ -55,16 +55,23 @@
             Title = "Bewerk product";
             product = await Http.GetFromJsonAsync<Product>($"api/Product/{Id}");
         }
+
     }
     protected async Task SaveProduct()
     {
-        if (product.Id == null)
+        try
         {
-            await Http.PostAsJsonAsync("api/Product", product);
-        }
-        else
+            if (product.Id == null)
+            {
+                await Http.PostAsJsonAsync("api/Product", product);
+            }
+            else
+            {
+                await Http.PutAsJsonAsync($"api/Product/{product.Id}", product);
+            }
+        } catch (Exception e)
         {
-            await Http.PutAsJsonAsync($"api/Product/{product.Id}", product);
+            Console.WriteLine(e);
         }
         NavigationManager.NavigateTo("/admin/products");
     }

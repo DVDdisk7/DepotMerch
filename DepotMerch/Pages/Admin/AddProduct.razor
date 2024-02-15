@@ -24,18 +24,18 @@
         <ValidationMessage For="@(() => product.Description)" />
     </div>
     <div class="mb-3">
-            <label for="Price" class="form-label">Prijs</label>
-            <div class="col-md-4">
-                <InputNumber class="form-control" @bind-Value="product.Price" />
-            </div>
-            <ValidationMessage For="@(() => product.Price)" />
+        <label for="Price" class="form-label">Prijs</label>
+        <div class="col-md-4">
+            <InputNumber class="form-control" @bind-Value="product.Price" />
+        </div>
+        <ValidationMessage For="@(() => product.Price)" />
     </div>
     <div class="mb-3">
-            <label for="ImageUrl" class="form-label">Afbeelding</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="product.ImageUrl" />
-            </div>
-            <ValidationMessage For="@(() => product.ImageUrl)" />
+        <label for="ImageUrl" class="form-label">Afbeelding</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="product.ImageUrl" />
+        </div>
+        <ValidationMessage For="@(() => product.ImageUrl)" />
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
@@ -44,6 +44,7 @@
 </EditForm>
 
 @code {
+
     [Parameter]
     public string Id { get; set; }
     protected string Title = "Voeg product toe";
@@ -55,28 +56,26 @@
             Title = "Bewerk product";
             product = await Http.GetFromJsonAsync<Product>($"api/Product/{Id}");
         }
-
     }
     protected async Task SaveProduct()
     {
-        try
+        if (product.Id != "")
         {
-            if (product.Id == null)
-            {
-                await Http.PostAsJsonAsync("api/Product", product);
-            }
-            else
-            {
-                await Http.PutAsJsonAsync($"api/Product/{product.Id}", product);
-            }
-        } catch (Exception e)
-        {
-            Console.WriteLine(e);
+            await Http.PutAsJsonAsync("api/Product", product);
         }
+        else
+        {
+            await Http.PostAsJsonAsync("api/Product", product);
+        }
+
         NavigationManager.NavigateTo("/admin/products");
     }
+
     public void Cancel()
     {
         NavigationManager.NavigateTo("/admin/products");
     }
 }
+
+
+

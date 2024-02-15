@@ -5,74 +5,90 @@
 @using DepotMerch.Interfaces
 @using System.Text.Json
 
-<h1>Productoverzicht</h1>
-<div class="row">
-    <div class="col-md-6">
-        <a href="/admin/products/add" class="btn btn-primary" role="button"><i class="fas fa-user-plus"></i>Voeg product toe</a>
-    </div>
-    <div class="input-group col">
-        <input type="text" class="form-control" placeholder="Zoek producten" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterProducts" />
-        @if (SearchString.Length > 0)
-        {
-            <div class="input-group-append">
-                <button class="btn btn-danger" @onclick="ResetSearch"><i class="fas fa-times"></i> Reset</button>
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <p>test</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this page.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+            <h1>Productoverzicht</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="/admin/products/add" class="btn btn-primary" role="button"><i class="fas fa-user-plus"></i>Voeg product toe</a>
+                </div>
+                <div class="input-group col">
+                    <input type="text" class="form-control" placeholder="Zoek producten" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterProducts" />
+                    @if (SearchString.Length > 0)
+                    {
+                        <div class="input-group-append">
+                            <button class="btn btn-danger" @onclick="ResetSearch"><i class="fas fa-times"></i> Reset</button>
+                        </div>
+                    }
+                </div>
             </div>
-        }
-    </div>
-</div>
-<br />
+            <br />
 
-@if (productsList == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p>@debug</p>
-    <table class="table table-striped align-middle table-bordered">
-        <thead class="table-success">
-            <tr>
-                <th>ID</th>
-                <th>Naam</th>
-                <th>Omschrijving</th>
-                <th>Prijs</th>
-                <th>Acties</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in productsList)
+            @if (productsList == null)
             {
-                <tr>
-                    <td>@product.Id</td>
-                    <td>@product.Name</td>
-                    <td>@product.Description</td>
-                    <td>@product.Price</td>
-                    <td>
-                        <a href='/admin/products/edit/@product.Id' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
-                        <a href='/admin/products/delete/@product.Id' class="btn btn-outline-danger" role="button">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
+                <p><em>Loading...</em></p>
             }
-        </tbody>
+            else
+            {
+                <p>@debug</p>
+                <table class="table table-striped align-middle table-bordered">
+                    <thead class="table-success">
+                        <tr>
+                            <th>ID</th>
+                            <th>Naam</th>
+                            <th>Omschrijving</th>
+                            <th>Prijs</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in productsList)
+                        {
+                            <tr>
+                                <td>@product.Id</td>
+                                <td>@product.Name</td>
+                                <td>@product.Description</td>
+                                <td>@product.Price</td>
+                                <td>
+                                    <a href='/admin/products/edit/@product.Id' class="btn btn-outline-dark" role="button">
+                                        Edit
+                                    </a>
+                                    <a href='/admin/products/delete/@product.Id' class="btn btn-outline-danger" role="button">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
 
-    </table>
-}
+                </table>
+            }
 
 
 @code {
+
+    // This is about the product list
     protected List<Product> productsList = new();
     protected List<Product> searchProductData = new();
     protected Product product = new();
     protected string debug = "";
     protected string SearchString { get; set; } = "";
+
     protected override async Task OnInitializedAsync()
     {
+
+        // Get Products
         await GetAllProducts();
     }
+
+
     protected async Task GetAllProducts()
     {
 

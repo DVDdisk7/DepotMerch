@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using DepotMerch.Data.Products;
 using DepotMerch.Interfaces;
-using DepotMerch.Data.Products;
-using DepotMerch.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DepotMerch.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController] 
+    [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IProduct _Product;
@@ -39,13 +37,9 @@ namespace DepotMerch.Controllers
             // dont ask for id and generate random guid
             product.Id = Guid.NewGuid().ToString();
             // Check if all needed fields are filled
-            if (product.Name == null || product.Description == null || product.Price < 0 )
+            if (product.Name == null || product.Description == null || product.Price < 0)
             {
                 return BadRequest("Please fill in all fields");
-            }
-            else if (product.ImageUrl != null && Image.CheckImage(product.ImageUrl))
-            {
-                return BadRequest("Image not supported");
             }
             else
             {
@@ -57,7 +51,6 @@ namespace DepotMerch.Controllers
         [HttpPut]
         public IActionResult Put(Product product)
         {
-            // Check if all needed fields are filled
             if (product.Name == null || product.Description == null || product.Price < 0)
             {
                 return BadRequest("Please fill in all fields");

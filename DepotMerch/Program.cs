@@ -3,11 +3,8 @@ using DepotMerch.Data;
 using DepotMerch.Data.Products;
 using DepotMerch.Interfaces;
 using DepotMerch.Services;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

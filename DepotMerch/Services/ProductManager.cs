@@ -1,5 +1,5 @@
-﻿using DepotMerch.Interfaces;
-using DepotMerch.Data.Products;
+﻿using DepotMerch.Data.Products;
+using DepotMerch.Interfaces;
 
 namespace DepotMerch.Services
 {
@@ -56,29 +56,31 @@ namespace DepotMerch.Services
         // Delete product
         public void DeleteProduct(string id)
         {
-                Product? product = _dbContext.Products.Find(id);
-                if (product != null)
-                {
-                    _dbContext.Products.Remove(product);
-                    _dbContext.SaveChanges();
-                } else
-                {
-                    throw new Exception("Product not found");
-                }
+            Product? product = _dbContext.Products.Find(id);
+            if (product != null)
+            {
+                _dbContext.Products.Remove(product);
+                _dbContext.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Product not found");
+            }
         }
 
         // Get product by id
         public Product GetProduct(string id)
         {
-                Product? product = _dbContext.Products.Find(id);
-                if (product != null)
-                {
-                    return product;
-                }
-                else
-                {
-                    return null;
-                }
+            Product? product = _dbContext.Products.Find(id);
+            if (product != null)
+            {
+                return product;
+            }
+            else
+            {
+                return null;
+            }
         }
+
     }
 }

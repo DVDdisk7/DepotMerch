@@ -1,5 +1,6 @@
 ﻿@page "/product/{Id}"
 @using DepotMerch.Data.Products
+@using DepotMerch.Data.Orders
 @using DepotMerch.Services
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -35,6 +36,23 @@
     {
         product = await Http.GetFromJsonAsync<Product>("/api/Product/" + Id);
     }
+
+    /*
+    // Use a local stored shopping cart based on the order model to store the products in the shopping cart
+    protected async Task AddToCart()
+    {
+        // Get the shopping cart from the local storage
+        var cart = await LocalStorage.GetItem<Order>("cart");
+        if (cart == null)
+        {
+            cart = new Order();
+        }
+        // Add the product to the shopping cart
+        cart.Products.Add(product);
+        // Store the shopping cart in the local storage
+        await LocalStorage.SetItem("cart", cart);
+    } */
+
 }
 
 

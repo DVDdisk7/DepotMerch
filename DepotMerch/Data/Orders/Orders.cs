@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DepotMerch.Data.Orders
 {
-    public partial class Orders
+    public partial class Order
     {
         public int OrderId { get; set; }
         public string Name { get; set; }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DepotMerch.Data.Products;
 
 namespace DepotMerch.Data.Orders
 {
@@ -18,13 +19,13 @@ namespace DepotMerch.Data.Orders
         {
         }
 
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductsByOrder> ProductsByOrder { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Orders>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasKey(e => e.OrderId);
 
@@ -46,7 +47,7 @@ namespace DepotMerch.Data.Orders
                     .IsFixedLength();
             });
 
-            modelBuilder.Entity<Products>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.Id).HasMaxLength(50);
 

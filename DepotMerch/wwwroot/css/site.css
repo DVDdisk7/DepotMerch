@@ -62,3 +62,15 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.auth a {
+    color: whitesmoke !important;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+}
+
+    .auth a :hover {
+        color: black !important;
+        -webkit-text-decoration: underline;
+        text-decoration: underline;
+    }
